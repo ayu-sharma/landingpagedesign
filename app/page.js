@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import drills from "../public/Images/drills.jpg";
 import weights from "../public/Images/weights.jpg";
 import yoga from "../public/Images/yoga.jpg";
@@ -22,6 +22,7 @@ export default function Home() {
       image: drills,
     },
   ];
+  const [isHovered, setIsHovered] = useState(null)
   return (
     <>
       <div className="flex items-center justify-center h-screen">
@@ -35,16 +36,18 @@ export default function Home() {
                 : "";
 
                 const middleClass =
-                index === 1 ? "flex-[2]": "flex-[1]";
+                index === 1 ? isHovered !== null ? "flex-[1] shrink" : "flex-[2]": "flex-[1]";
             return (
               <div
                 key={item.id}
                 className={`relative ${middleClass} hover:flex-[2] ease-in-out duration-500`}
+                onMouseEnter={() => setIsHovered(index)}
+                onMouseLeave={() =>setIsHovered(null)}
               >
                 <Image
                   src={item.image}
                   alt={item.title}
-                  className={`absolute w-full object-cover h-full ${roundedClass}`}
+                  className={`w-full object-cover h-full ${roundedClass}`}
                   width={350}
                   height={300}
                 />
