@@ -35,14 +35,13 @@ export default function Home() {
                 : "";
 
                 const middleClass =
-                index === 1 ? "flex-[3]": "flex-[1]";
+                index === 1 ? "flex-[2]": "flex-[1]";
             return (
               <div
                 key={item.id}
-                className={`relative ${middleClass} hover:flex-[3] ease-in-out duration-500`}
+                className={`relative ${middleClass} hover:flex-[2] ease-in-out duration-500`}
               >
                 <Image
-                  onClick={() => handleClick(item.id)}
                   src={item.image}
                   alt={item.title}
                   className={`absolute w-full object-cover h-full ${roundedClass}`}
