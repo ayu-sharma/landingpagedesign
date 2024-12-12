@@ -22,11 +22,11 @@ export default function Home() {
       image: drills,
     },
   ];
-  const [isHovered, setIsHovered] = useState(null)
+  const [isHovered, setIsHovered] = useState(null);
   return (
     <>
-      <div className="flex items-center justify-center h-screen">
-        <div className="flex relative h-[50vh] px-auto max-w-6xl overflow-hidden mx-auto w-full">
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex relative px-auto max-w-6xl overflow-hidden mx-auto w-full">
           {items.map((item, index) => {
             const roundedClass =
               index === 0
@@ -35,14 +35,18 @@ export default function Home() {
                 ? "rounded-r-xl"
                 : "";
 
-                const middleClass =
-                index === 1 ? isHovered !== null ? "flex-[1] shrink" : "flex-[2]": "flex-[1]";
+            const middleClass =
+              index === 1
+                ? isHovered !== null
+                  ? "flex-[1] shrink"
+                  : "flex-[2]"
+                : "flex-[1]";
             return (
               <div
                 key={item.id}
                 className={`relative ${middleClass} hover:flex-[2] ease-in-out duration-500`}
                 onMouseEnter={() => setIsHovered(index)}
-                onMouseLeave={() =>setIsHovered(null)}
+                onMouseLeave={() => setIsHovered(null)}
               >
                 <Image
                   src={item.image}
@@ -54,7 +58,7 @@ export default function Home() {
                 <div className="absolute top-1 left-3 text-white">
                   {item.title}
                 </div>
-                </div>
+              </div>
             );
           })}
         </div>
