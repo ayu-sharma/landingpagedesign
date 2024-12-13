@@ -1,9 +1,10 @@
 "use client";
-import { use, useState } from "react";
+import { useState } from "react";
 import drills from "../public/Images/drills.jpg";
 import weights from "../public/Images/weights.jpg";
 import yoga from "../public/Images/yoga.jpg";
 import Image from "next/image";
+
 export default function Home() {
   const items = [
     {
@@ -22,48 +23,61 @@ export default function Home() {
       image: drills,
     },
   ];
-  const [isHovered, setIsHovered] = useState(null);
-  return (
-    <>
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="flex relative px-auto max-w-6xl overflow-hidden mx-auto w-full">
-          {items.map((item, index) => {
-            const roundedClass =
-              index === 0
-                ? "rounded-l-xl"
-                : index === items.length - 1
-                ? "rounded-r-xl"
-                : "";
 
-            const middleClass =
-              index === 1
-                ? isHovered !== null
-                  ? "flex-[1] shrink"
-                  : "flex-[2]"
-                : "flex-[1]";
-            return (
-              <div
-                key={item.id}
-                className={`relative ${middleClass} hover:flex-[2] ease-in-out duration-500`}
-                onMouseEnter={() => setIsHovered(index)}
-                onMouseLeave={() => setIsHovered(null)}
-              >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  className={`w-full object-cover h-full ${roundedClass}`}
-                  width={350}
-                  height={300}
-                />
-                <div className="absolute top-1 left-3 text-white">
-                  {item.title}
-                </div>
+  const [isHovered, setIsHovered] = useState(null);
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex relative max-w-6xl w-full overflow-hidden rounded-xl">
+        {items.map((item, index) => {
+          const isFirst = index === 0;
+          const isLast = index === items.length - 1;
+          const isMiddle = index === 1;
+
+          // Flex logic for hover
+          let flexClass = "flex-1";
+
+          if (isMiddle) {
+            if (isHovered === 0) {
+              flexClass = "flex-[1] origin-left"; // Shrink from the left
+            } else if (isHovered === 2) {
+              flexClass = "flex-[1] origin-right"; // Shrink from the right
+            } else {
+              flexClass = "flex-[2]";
+            }
+          } else if (isHovered === index) {
+            flexClass = "flex-[2]"; // Expand hovered section
+          } else if (isHovered !== null) {
+            flexClass = "flex-[0.8]"; // Shrink non-hovered sections
+          }
+
+          const roundedClass = isFirst
+            ? "rounded-l-xl"
+            : isLast
+            ? "rounded-r-xl"
+            : "";
+
+          return (
+            <div
+              key={item.id}
+              className={`relative h-[300px] transition-all duration-500 ease-in-out ${flexClass}`}
+              onMouseEnter={() => setIsHovered(index)}
+              onMouseLeave={() => setIsHovered(null)}
+            >
+              <Image
+                src={item.image}
+                alt={item.title}
+                className={`w-full h-full object-cover ${roundedClass}`}
+                width={350}
+                height={300}
+              />
+              <div className="absolute top-3 left-5 text-white text-xl font-semibold">
+                {item.title}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
-      {/* <HandleImage/> */}
-    </>
+    </div>
   );
 }
